@@ -70,7 +70,7 @@ var overlayPlacemark =  {
         south: 43.637907,
         east: -79.364944,
         west: -79.40890,
-        image: "../media/images/toronto_downtown_1913_rotated_smaller.gif"
+        image: "media/images/toronto_downtown_1913_rotated_smaller.gif"
     },
     title : "Overlay Placemark",
     options : {
