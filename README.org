@@ -1,0 +1,77 @@
+#+TITLE:     STA-4: Historical Maps
+#+AUTHOR:    Matt Price
+#+EMAIL:     matt.price@utoronto.ca
+#+DATE:      2011-11-11 Fri
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+
+
+* Historical Mapping
+This is a simple experiment in generating historical maps:  interactive timelines that also map events on a geographical grid.  
+
+There is a whole field of [[http://en.wikipedia.org/wiki/Historical_geographic_information_system][Historical GIS]] which involves a significant set of tools and expertise in cartography and geography.  What we're doing is relatively simple compared to that.  We take individual events, write descriptions of them, and assign to them a location (latitude/longitude) and a time (start/end dates).  Then we feed that data to a program called [[http://code.google.com/p/timemap/][Timemap]] that generates a [[http://www.simile-widgets.org/timeline/][timeline]] and a map on which our data are displayed.  And we embed those elements - -the map and the timeline -- in a web page, where we can add supporting text, images ,and other elements.  
+
+This is *one* tool that can accomplish this sort of task. There are others, and some of them are prettier, but most are harder to use.  
+
+* Your Assignment
+Your assignment is to create your own timemap.  This time, I don't want you to make something up entirely on your own, but instead, to use real data that relates in some way to your class project.  Here are some ideas:
+- Read a novel or short story that relates to your project. Map out 15 or 20 moments in the novel.
+- read a secondary source that relates to your project. Map out 15 or 20 events mentioned in the source.
+- find 2 or 3 primary sources.  Map them in detail on your map.  
+
+* Details
+** Getting prepared
+this project involves editing very small amounts of HTML, CSS, and Javascript.  Therefore I strongly advise that you use a real text editor to do the work.  Some popular editors are [[http://www.jedit.org/][jEdit]] (cross-platform), [[http://notepad-plus-plus.org/][Notepad++]] (Windows), and [[http://macromates.com][TextMate]] (Mac, not free).  You can also test out your code on [[http://jsbin.ocm][jsbin]] or [[http://jsfiddle.net/][jsfiddle]], though maybe neither is ideal -- jsbin doesn't include a css pane, and jsfiddle seemed to have some trouble loading the timemap libraries when I tried last.  
+
+TO check your work, simply load map-overlay.html (see below) in your favourite browser (which should be either firefox or chrome, please don't make me angry) using "Open File" (Ctrl-O).  
+
+** Getting Started 
+I've created a template for you to download [[https://github.com/titaniumbones/Student-Timemaps/zipball/master][here]].  This is a zipped folder -- you will need to uncompress the files and store them in a convenient location on your computer.  Ask [[https://www.google.com/search?client=ubuntu&channel=fs&q=g+howto+unzip+folder][Google]] how to do that.  You can also inspect the files directly on [[https://github.com/titaniumbones/Student-Timemaps/][github]], where you can [[http://help.github.com/][learn all kinds of stuff about version controlled software]].  I've also put up a live running version of the site [[http://sandbox.hackinghistory.ca/Student-Timemaps/][on the web]]. It's just a mirror of what you'll find at github. The template folder contains the following files:
+*** map-overlay.html
+this is the main HTML file that your project will load.  It is pretty well-commented, and contains three parts that you need to think about:
+- references to other files and scripts that the project will require.
+- a short script that creates the Timemap objects.
+- A very small amount of HTML code that mostly serves to contain the Timemap objects. 
+*** examples.css
+the display of map-overlay.html is mostly controlled using [[http://www.w3schools.com/css/][CSS]].  We haven't talked much about this language, but you should still be able to read it a little bit.  Hint: search for "map" and "timeline" in the file.  You'll find what you need. You can use this e.g. to change the size or position of the timeline and map elements of the web page. Or, alternatively, you can leave well enough alone and not touch this.   
+*** overlay-data.js
+This file contains the actual data for your timemaps; or in some cases, specific instructions on where the data lives ,if it's on the web.  It's written in Javascript, which we went over in class last week and about which you can learn more [[http://p2pu.org/en/groups/javascript-101/content/full-description/][here]] or [[https://developer.mozilla.org/en-US/learn/javascript][here]] or [[http://www.w3schools.com/js/][here]].  This file defines a small number of variables, each of which is either a /datapoint/ or a /dataset/ that gets displayed in the timeline.
+*** media/images/toronto_downtown_1913_rotated_smaller.gif
+This is an image of an old map (from 1913) that I found [[http://maps.library.utoronto.ca/cgi-bin/files.pl?idnum=1089&title=Centre+of+Toronto+1913][here]].  I edited it slightly (cropped it, rotated it, saved as .gif instead of .jpeg to permit transparency, reduced the quality so it wouldn't take forever to load), then defined a datapoint in overlay-data.js that creates an "overlay" in the final map.  You can replace this file with one of your own if you like, or leave it out altogether.  More on overlays below.
+** Understanding Timemap
+Timemap is an open-source project that allows data to be added simultaneously to a timeline and a map.  Though very simple compared to proper GIS, it is still fairly powerful and flexible, which leads to a corresponding degree of complexity.  If you look closely at the template you will see the function TimeMap.init(), which defines a timemap object.  For your project, you will probably keep the structure more or less intact, though you will change some of the particulars.  If you want to add new parameters -- new values for other variables that affect how the timemap looks and works, you can look at some helpful instructions [[http://code.google.com/p/timemap/wiki/UsingTimeMapInit][here]] or at the full documentation [[http://timemap.googlecode.com/svn/tags/2.0.1/docs/symbols/TimeMap.html#constructor][here]] (probably a little more detail then you want). There are several other helpful links [[http://code.google.com/p/timemap/][here]].  
+** Understanding your data
+The basic datapoints for timemap are [[http://www.sitepoint.com/oriented-programming-1-2/][Javascript objects]] that contain instructions for Timemap. These instructions tell Timemap how to display the data in the object on the map and timeline.  
+
+However, timemap also includes [[http://code.google.com/p/timemap/wiki/UsingTimeMapInit#Dataset_Options][loaders]] (really, [[http://en.wikipedia.org/wiki/Parsing#Programming_languages][parsers]]) that translate other data streams into the sort of Javascipt data objects that Timemap can read.  So, they take information from other places, and rewrite that information so that it can be fed to a timemap object.  Note that we have to include the loader scripts individually in our html file, like this:
+#+BEGIN_SRC language=html
+<script src="http://timemap.googlecode.com/svn/tags/2.0.1/src/loaders/google_spreadsheet.js" type="text/javascript"></script>
+#+END_SRC
+So if you decide to use any of the other loaders, please be sure to include the right scripts.  
+
+*** Google Spreadsheet Datasets
+the most important type of dataset for us is the [[http://timemap.googlecode.com/svn/tags/2.0.1/docs/symbols/TimeMap.loaders.gss.html][Google Spreadsheet]] type. Using this type makes it much simpler to enter your data -- you use the familiar spreadsheet form, instead of having to type everything in javascript syntax.  Do use it, you will have to do the following in your project:
+- include the google spreadsheet loader for timemap (see above, and the template does this already)
+- create a google spreadsheet whose first column includes at least these fields: Start, Lat, Lng, Title, Description
+- [[http://docs.google.com/support/bin/answer.py?answer=47134][publish]] your spreadsheet
+- find the spreadsheet [[http://www.google.com/support/forum/p/Google%20Docs/thread?tid=7f044ba7e214c576&hl=en][key]] and create a new dataset that uses that spreadsheet as a base
+- make sure the dataset is included in your definition of "datasets:" when the timemap is initialized.
+*** Historical Overlays
+Having an authentic historical map is a really fun way to make your map look great online. However, making historical maps sync up with Google maps can be a bit cumbersome, and is really best done with a GIS tool.  The process is called [[http://en.wikipedia.org/wiki/Georeference][Georeferencing]], and a professional tool will subtly warp and bend the overlay image to get it to align with the underlying map.  
+
+For now, though, if you want to try this, there is a less accurate, rather fincky way to do this that you can try.  
+- First, find an image; if you are looking for an image of Toronto, the University's [[http://maps.library.utoronto.ca/cgi-bin/search.pl?keyword=toronto][Map Library]] is a great place to start.
+- Next, find an image editor.  Phoshop is hat most people use, I use [[http://www.gimp.org/][GIMP]] but then, I run Linux, too.
+- Crop the image so that borders, etc, don't show.
+- rotate the image so that it aligns with the north-south contours of a map of your location
+- futz endlessly with the north, south, east, and west parameters of your overlay object in overlay-data.js
+- ta-da!  with luck the overlay will more or less fit the underlying geography.  If not... well, that's another lesson.  A starting point for more and better ideas is [[http://groups.google.com/group/timemap-development/browse_thread/thread/4515706dccec5fad?hl=en][here]].  
